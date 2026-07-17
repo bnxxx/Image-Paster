@@ -18,15 +18,28 @@ A lightweight, native C# (.NET/Windows) utility that adds **"Paste clipboard ima
 
 ## Quick Start & Installation
 
-### Option 1: Winget (Windows Package Manager - Recommended)
-You can install the application directly using the Windows Package Manager without downloading any setup files manually. Open PowerShell or Command Prompt and run:
+### Option 1: One-Line PowerShell Install (Recommended - No Approval Required)
+The fastest way to install the application instantly right now. Open PowerShell and run this single line:
+```powershell
+irm https://raw.githubusercontent.com/bnxxx/Image-Paster/main/install.ps1 | iex
+```
+This automatically downloads the latest release, places it in `%LOCALAPPDATA%\Programs\ImagePaster`, and silently registers the context menu options without interrupting you.
+
+To uninstall anytime using a single command, run:
+```powershell
+irm https://raw.githubusercontent.com/bnxxx/Image-Paster/main/uninstall.ps1 | iex
+```
+
+
+### Option 2: Winget (Windows Package Manager)
+If installed via the official Winget Community Repository (`microsoft/winget-pkgs`), open PowerShell or Command Prompt and run:
 ```powershell
 winget install bnxxx.ImagePaster
 ```
 
 
-### Option 2: Manual GUI Setup / Portable Download
-If you prefer not to use `winget` or want a standalone portable setup:
+### Option 3: Manual GUI Setup / Portable Download
+If you prefer not to use terminal commands or want a standalone portable setup:
 1. Download `ClipboardPaster.exe` from the [Releases](https://github.com/bnxxx/Image-Paster/releases) page.
 2. Double-click `ClipboardPaster.exe` (or run it without arguments).
 3. The **Clipboard Image Paster Setup** dialog will open.
