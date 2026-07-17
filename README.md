@@ -35,6 +35,23 @@ To uninstall at any time:
 bin\ClipboardPaster.exe --uninstall
 ```
 
+### Option 3: Winget (Windows Package Manager)
+Because this executable natively supports silent command-line installation (`--install`), it is ready out-of-the-box for distribution through `winget` without needing wrapper MSIs or setups. Once published to the official repository (`microsoft/winget-pkgs`), any user worldwide can install it instantly by running:
+```powershell
+winget install bnxxx.ImagePaster
+```
+**How to Publish Your Winget Package:**
+We have included ready-to-use Winget manifest templates inside [`packaging/winget/`](file:///C:/proyectos/paster/packaging/winget):
+1. Push your repository to GitHub (`https://github.com/bnxxx/Image-Paster`) and create a Release (e.g., `v1.0.0`), attaching `ClipboardPaster.exe` as an asset.
+2. Calculate your executable's SHA256 hash: `Get-FileHash bin\ClipboardPaster.exe`.
+3. Update `packaging/winget/bnxxx.ImagePaster.installer.yaml` with your release URL and SHA256 hash.
+4. Submit your manifests as a Pull Request to [microsoft/winget-pkgs](https://github.com/microsoft/winget-pkgs) using the `wingetcreate` CLI or via GitHub. Once merged by Microsoft's automated bots, `winget install` will work globally!
+
+You can also test installing directly from your local manifest right now before submitting:
+```powershell
+winget install --manifest packaging\winget\bnxxx.ImagePaster.yaml
+```
+
 ---
 
 ## Usage Guide
