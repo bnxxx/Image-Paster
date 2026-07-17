@@ -49,8 +49,9 @@ if (-not (Test-Path $InstallDir)) {
 }
 
 # Check if installing from local directory (e.g. cloned repo or local build)
-$LocalBinPath = Join-Path $PSScriptRoot "bin\$AppName.exe"
-$LocalRootPath = Join-Path $PSScriptRoot "$AppName.exe"
+$ScriptDir = if (![string]::IsNullOrEmpty($PSScriptRoot)) { $PSScriptRoot } else { (Get-Location).Path }
+$LocalBinPath = Join-Path $ScriptDir "bin\$AppName.exe"
+$LocalRootPath = Join-Path $ScriptDir "$AppName.exe"
 
 if (Test-Path $LocalBinPath) {
     Write-Host "Found local build at $LocalBinPath. Copying..." -ForegroundColor Green

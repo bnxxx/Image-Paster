@@ -21,7 +21,8 @@ if (Test-Path $ExePath) {
     }
 } else {
     # If executable isn't found, check if local bin copy exists just to run --uninstall
-    $LocalBinPath = Join-Path $PSScriptRoot "bin\$AppName.exe"
+    $ScriptDir = if (![string]::IsNullOrEmpty($PSScriptRoot)) { $PSScriptRoot } else { (Get-Location).Path }
+    $LocalBinPath = Join-Path $ScriptDir "bin\$AppName.exe"
     if (Test-Path $LocalBinPath) {
         & $LocalBinPath --uninstall
     }

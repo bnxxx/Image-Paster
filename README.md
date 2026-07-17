@@ -6,7 +6,7 @@ A lightweight, native C# (.NET/Windows) utility that adds **"Paste clipboard ima
 
 ## Key Features
 
-- **Instant & Silent Saving**: By default, images on the clipboard are automatically saved as high-quality PNG files (`Image_YYYY-MM-DD_HHMMSS.png`) directly inside the clicked directory without any interrupting dialogs or notifications.
+- **Instant Saving**: By default, images on the clipboard are automatically saved as high-quality PNG files (`Image_YYYY-MM-DD_HHMMSS.png`) directly inside the clicked directory
 - **Built-in Optical Character Recognition (OCR)**: Select **"Paste image & transcribe text (OCR)"** from the context menu to automatically run native Windows AI text recognition on the pasted image. The application extracts all text (`Text_YYYY-MM-DD_HHMMSS.txt`) while preserving recognized line breaks (`\r\n`), saving **only the text file** (no image file is created).
 - **Custom Save Dialog (SHIFT + Click)**: Need a custom filename or a different format (JPG, BMP, PNG)? Hold down the **SHIFT** key while clicking either context menu option to launch a quick Save As dialog.
 - **Smart Clipboard Detection**: Works effortlessly with raw clipboard bitmaps (e.g., from **Snipping Tool / Win + Shift + S**, browser copy, PrintScreen, Photoshop) as well as copied image files from Windows Explorer (`.png`, `.jpg`, `.jpeg`, `.bmp`, `.gif`, `.tiff`).
@@ -18,7 +18,7 @@ A lightweight, native C# (.NET/Windows) utility that adds **"Paste clipboard ima
 
 ## Quick Start & Installation
 
-### Option 1: One-Line PowerShell Install (Recommended - No Approval Required)
+### One-Line PowerShell Install
 The fastest way to install the application instantly right now. Open PowerShell and run this single line:
 ```powershell
 irm https://raw.githubusercontent.com/bnxxx/Image-Paster/main/install.ps1 | iex
@@ -31,14 +31,14 @@ irm https://raw.githubusercontent.com/bnxxx/Image-Paster/main/uninstall.ps1 | ie
 ```
 
 
-### Option 2: Winget (Windows Package Manager)
+### Winget (Windows Package Manager)
 If installed via the official Winget Community Repository (`microsoft/winget-pkgs`), open PowerShell or Command Prompt and run:
 ```powershell
 winget install bnxxx.ImagePaster
 ```
 
 
-### Option 3: Manual GUI Setup / Portable Download
+### Manual GUI Setup / Portable Download
 If you prefer not to use terminal commands or want a standalone portable setup:
 1. Download `ClipboardPaster.exe` from the [Releases](https://github.com/bnxxx/Image-Paster/releases) page.
 2. Double-click `ClipboardPaster.exe` (or run it without arguments).
@@ -52,19 +52,19 @@ To uninstall using the GUI, simply run `ClipboardPaster.exe` again and click **U
 
 ## Usage Guide
 
-### 1. Automatic Silent Paste
+### Automatic  Paste
 1. Copy an image to your clipboard using any tool (e.g., press `Win + Shift + S` to take a screenshot with Windows Snipping Tool, or right-click an image on the web and click *Copy Image*).
 2. Navigate to any folder in Windows Explorer.
 3. Right-click the folder icon OR the empty background inside the open folder, and select **Paste clipboard image**.
-4. The image will be silently saved inside the folder as `Image_YYYY-MM-DD_HHMMSS.png`.
+4. The image will be saved inside the folder as `Image_YYYY-MM-DD_HHMMSS.png`.
 
-### 2. Paste + OCR Text Extraction
+### Paste + OCR Text Extraction
 1. Copy an image containing text (such as a receipt, invoice, code snippet, or scanned document) to your clipboard.
 2. Right-click the folder icon OR the empty background inside any open folder.
 3. Select **Paste image & transcribe text (OCR)**.
 4. The application extracts the text using native Windows 10/11 OCR, saving **only the transcribed text** (`Text_YYYY-MM-DD_HHMMSS.txt`) directly inside the folder while preserving all recognized line breaks (`\r\n`). No image (`.png`) file is written to disk in this mode.
 
-### 3. Custom Filename / Format Selection
+### Custom Filename / Format Selection
 1. Copy an image to your clipboard.
 2. Right-click the folder icon or inside the folder where you want to save it.
 3. Hold the **SHIFT** key on your keyboard and click either **Paste clipboard image** or **Paste image & transcribe text (OCR)**.
