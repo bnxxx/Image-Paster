@@ -18,22 +18,22 @@ A lightweight, native C# (.NET/Windows) utility that adds **"Paste clipboard ima
 
 ## Quick Start & Installation
 
-### Option 1: GUI Setup (Recommended)
-1. Double-click `bin\ClipboardPaster.exe` (or run it without arguments).
-2. The **Clipboard Image Paster Setup** dialog will open.
-3. Click **Install to Context Menu**.
-4. You are done! Open Windows Explorer, right-click on any folder icon or inside any open folder background, and you will see **"Paste clipboard image"** and **"Paste image & transcribe text (OCR)"**.
-
-### Option 2: Command-Line / Scripted Installation
-Open a terminal (Command Prompt or PowerShell) and run:
-```cmd
-bin\ClipboardPaster.exe --install
+### Option 1: Winget (Windows Package Manager - Recommended)
+You can install the application directly using the Windows Package Manager without downloading any setup files manually. Open PowerShell or Command Prompt and run:
+```powershell
+winget install bnxxx.ImagePaster
 ```
 
-To uninstall at any time:
-```cmd
-bin\ClipboardPaster.exe --uninstall
-```
+
+### Option 2: Manual GUI Setup / Portable Download
+If you prefer not to use `winget` or want a standalone portable setup:
+1. Download `ClipboardPaster.exe` from the [Releases](https://github.com/bnxxx/Image-Paster/releases) page.
+2. Double-click `ClipboardPaster.exe` (or run it without arguments).
+3. The **Clipboard Image Paster Setup** dialog will open.
+4. Click **Install to Context Menu**.
+5. You are done! Open Windows Explorer, right-click on any folder icon or inside any open folder background, and you will see **"Paste clipboard image"** and **"Paste image & transcribe text (OCR)"**.
+
+To uninstall using the GUI, simply run `ClipboardPaster.exe` again and click **Uninstall from Context Menu**.
 
 ---
 
@@ -56,26 +56,6 @@ bin\ClipboardPaster.exe --uninstall
 2. Right-click the folder icon or inside the folder where you want to save it.
 3. Hold the **SHIFT** key on your keyboard and click either **Paste clipboard image** or **Paste image & transcribe text (OCR)**.
 4. A Save As dialog will appear, allowing you to choose a custom file name or format. If OCR was selected, you will be prompted to choose a destination and filename for the transcribed `.txt` file.
-
----
-
-## Building from Source
-
-You do **not** need Visual Studio or heavy SDKs installed to compile this project. It uses the pre-installed Microsoft `.NET Framework` C# compiler (`csc.exe`) included out-of-the-box with Windows (`C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe`).
-
-### Compile using Batch (`build.bat`):
-Open Command Prompt inside the project directory and run:
-```cmd
-build.bat
-```
-
-### Compile using PowerShell (`build.ps1`):
-Open PowerShell inside the project directory and run:
-```powershell
-.\build.ps1
-```
-
-The compiled binary will be placed inside `bin\ClipboardPaster.exe`.
 
 ---
 

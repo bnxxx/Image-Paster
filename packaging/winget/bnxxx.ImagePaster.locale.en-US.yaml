@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.6.0.schema.json
+
+PackageIdentifier: bnxxx.ImagePaster
+PackageVersion: 1.0.0
+PackageLocale: en-US
+Publisher: bnxxx
+PublisherUrl: https://github.com/bnxxx
+PublisherSupportUrl: https://github.com/bnxxx/Image-Paster/issues
+PackageName: Clipboard Image Paster
+PackageUrl: https://github.com/bnxxx/Image-Paster
+License: MIT
+LicenseUrl: https://github.com/bnxxx/Image-Paster/blob/main/LICENSE
+ShortDescription: Lightweight native Windows Explorer context menu utility to paste clipboard images directly into folders and extract OCR text.
+Description: |-
+  Clipboard Image Paster adds "Paste clipboard image" and "Paste image & transcribe text (OCR)" options directly to your Windows Explorer right-click context menu (both on folder icons and inside open folder backgrounds).
+  - Instant and silent saving of clipboard images as timestamped PNGs.
+  - Native Windows AI Optical Character Recognition (OCR) to extract text directly from clipboard images with full line-break preservation into clean .txt files without saving the image.
+  - Hold SHIFT while clicking for custom filename and format selection (PNG, JPG, BMP).
+  - Zero external dependency requirements, ~20KB standalone binary.
+Moniker: clipboardpaster
+Tags:
+  - clipboard
+  - context-menu
+  - explorer
+  - image
+  - ocr
+  - paste
+  - windows
+ManifestType: defaultLocale
+ManifestVersion: 1.6.0
