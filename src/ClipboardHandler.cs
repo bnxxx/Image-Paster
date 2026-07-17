@@ -88,9 +88,29 @@ namespace ClipboardPaster
         }
 
         /// <summary>
+        /// Generates a unique default filename like Text_YYYY-MM-DD_HHMMSS.txt in the target directory for OCR output.
+        /// </summary>
+        private static string GenerateUniqueTextPath(string targetDir, out string defaultFileName)
+        {
+            string timeStamp = DateTime.Now.ToString("yyyy-MM-dd_HHmmss");
+            defaultFileName = string.Format("Text_{0}.txt", timeStamp);
+            string fullPath = Path.Combine(targetDir, defaultFileName);
+
+            int counter = 1;
+            while (File.Exists(fullPath))
+            {
+                defaultFileName = string.Format("Text_{0}_{1}.txt", timeStamp, counter);
+                fullPath = Path.Combine(targetDir, defaultFileName);
+                counter++;
+            }
+
+            return fullPath;
+        }
+
+        /// <summary>
         /// Main entry logic when invoked with a target directory path.
         /// Operates silently in the background unless SHIFT is held down for custom save dialog.
-        /// If runOcr is true, runs native Windows OCR on the saved image and outputs a matching .txt file.
+        /// If runOcr is true, runs native Windows OCR on the clipboard image and outputs ONLY the transcribed .txt file.
         /// </summary>
         public static void ProcessPasteRequest(string targetDir, bool runOcr = false)
         {
@@ -113,59 +133,83 @@ namespace ClipboardPaster
 
                 using (clipImage)
                 {
-                    if (shiftPressed)
+                    if (runOcr)
                     {
-                        // Open a clean SaveFileDialog if user held SHIFT while clicking context menu
-                        using (SaveFileDialog dialog = new SaveFileDialog())
+                        using (Bitmap bmp = clipImage as Bitmap ?? new Bitmap(clipImage))
                         {
-                            string defaultName;
-                            GenerateUniqueSavePath(targetDir, out defaultName);
-
-                            dialog.InitialDirectory = targetDir;
-                            dialog.FileName = defaultName;
-                            dialog.Title = runOcr ? "Save Clipboard Image & OCR Text" : "Save Clipboard Image";
-                            dialog.Filter = "PNG Image (*.png)|*.png|JPEG Image (*.jpg;*.jpeg)|*.jpg;*.jpeg|Bitmap Image (*.bmp)|*.bmp";
-                            dialog.FilterIndex = 1;
-                            dialog.RestoreDirectory = true;
-
-                            if (dialog.ShowDialog() == DialogResult.OK)
+                            if (shiftPressed)
                             {
-                                string savePath = dialog.FileName;
-                                string ext = Path.GetExtension(savePath).ToLowerInvariant();
-
-                                ImageFormat format = ImageFormat.Png;
-                                if (ext == ".jpg" || ext == ".jpeg")
+                                using (SaveFileDialog dialog = new SaveFileDialog())
                                 {
-                                    format = ImageFormat.Jpeg;
-                                }
-                                else if (ext == ".bmp")
-                                {
-                                    format = ImageFormat.Bmp;
-                                }
+                                    string defaultName;
+                                    GenerateUniqueTextPath(targetDir, out defaultName);
 
-                                clipImage.Save(savePath, format);
+                                    dialog.InitialDirectory = targetDir;
+                                    dialog.FileName = defaultName;
+                                    dialog.Title = "Save Transcribed Text (OCR)";
+                                    dialog.Filter = "Text File (*.txt)|*.txt";
+                                    dialog.FilterIndex = 1;
+                                    dialog.DefaultExt = "txt";
+                                    dialog.RestoreDirectory = true;
 
-                                if (runOcr)
-                                {
-                                    string textPath = Path.ChangeExtension(savePath, ".txt");
-                                    string ocrError;
-                                    OcrTranscriber.TranscribeAndSave(savePath, textPath, out ocrError);
+                                    if (dialog.ShowDialog() == DialogResult.OK)
+                                    {
+                                        string ocrError;
+                                        OcrTranscriber.TranscribeBitmapAndSave(bmp, dialog.FileName, out ocrError);
+                                    }
                                 }
+                            }
+                            else
+                            {
+                                string defaultName;
+                                string textPath = GenerateUniqueTextPath(targetDir, out defaultName);
+                                string ocrError;
+                                OcrTranscriber.TranscribeBitmapAndSave(bmp, textPath, out ocrError);
                             }
                         }
                     }
                     else
                     {
-                        // Automatic, silent instant save
-                        string defaultName;
-                        string savePath = GenerateUniqueSavePath(targetDir, out defaultName);
-                        clipImage.Save(savePath, ImageFormat.Png);
-
-                        if (runOcr)
+                        if (shiftPressed)
                         {
-                            string textPath = Path.ChangeExtension(savePath, ".txt");
-                            string ocrError;
-                            OcrTranscriber.TranscribeAndSave(savePath, textPath, out ocrError);
+                            // Open a clean SaveFileDialog if user held SHIFT while clicking context menu
+                            using (SaveFileDialog dialog = new SaveFileDialog())
+                            {
+                                string defaultName;
+                                GenerateUniqueSavePath(targetDir, out defaultName);
+
+                                dialog.InitialDirectory = targetDir;
+                                dialog.FileName = defaultName;
+                                dialog.Title = "Save Clipboard Image";
+                                dialog.Filter = "PNG Image (*.png)|*.png|JPEG Image (*.jpg;*.jpeg)|*.jpg;*.jpeg|Bitmap Image (*.bmp)|*.bmp";
+                                dialog.FilterIndex = 1;
+                                dialog.RestoreDirectory = true;
+
+                                if (dialog.ShowDialog() == DialogResult.OK)
+                                {
+                                    string savePath = dialog.FileName;
+                                    string ext = Path.GetExtension(savePath).ToLowerInvariant();
+
+                                    ImageFormat format = ImageFormat.Png;
+                                    if (ext == ".jpg" || ext == ".jpeg")
+                                    {
+                                        format = ImageFormat.Jpeg;
+                                    }
+                                    else if (ext == ".bmp")
+                                    {
+                                        format = ImageFormat.Bmp;
+                                    }
+
+                                    clipImage.Save(savePath, format);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            // Automatic, silent instant save
+                            string defaultName;
+                            string savePath = GenerateUniqueSavePath(targetDir, out defaultName);
+                            clipImage.Save(savePath, ImageFormat.Png);
                         }
                     }
                 }

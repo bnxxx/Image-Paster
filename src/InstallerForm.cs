@@ -141,7 +141,7 @@ namespace ClipboardPaster
             {
                 Text = "• Right-click any folder icon OR open folder -> \"Paste clipboard image\".\n" +
                        "• For text extraction, select \"Paste image & transcribe text (OCR)\" to save\n" +
-                       "  both the image file AND a transcribed .txt file right next to it.\n" +
+                       "  ONLY the transcribed text (Text_*.txt) with all line breaks preserved.\n" +
                        "• Hold down SHIFT while clicking either option for a custom Save As dialog.",
                 Font = new Font("Segoe UI", 8.5F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
                 ForeColor = Color.FromArgb(150, 158, 172),

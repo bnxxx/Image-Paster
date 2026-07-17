@@ -7,7 +7,7 @@ A lightweight, native C# (.NET/Windows) utility that adds **"Paste clipboard ima
 ## Key Features
 
 - **Instant & Silent Saving**: By default, images on the clipboard are automatically saved as high-quality PNG files (`Image_YYYY-MM-DD_HHMMSS.png`) directly inside the clicked directory without any interrupting dialogs or notifications.
-- **Built-in Optical Character Recognition (OCR)**: Select **"Paste image & transcribe text (OCR)"** from the context menu to automatically run native Windows AI text recognition on the pasted image. The transcribed text is instantly saved into a matching text file right next to the image (`Image_YYYY-MM-DD_HHMMSS.txt`).
+- **Built-in Optical Character Recognition (OCR)**: Select **"Paste image & transcribe text (OCR)"** from the context menu to automatically run native Windows AI text recognition on the pasted image. The application extracts all text (`Text_YYYY-MM-DD_HHMMSS.txt`) while preserving recognized line breaks (`\r\n`), saving **only the text file** (no image file is created).
 - **Custom Save Dialog (SHIFT + Click)**: Need a custom filename or a different format (JPG, BMP, PNG)? Hold down the **SHIFT** key while clicking either context menu option to launch a quick Save As dialog.
 - **Smart Clipboard Detection**: Works effortlessly with raw clipboard bitmaps (e.g., from **Snipping Tool / Win + Shift + S**, browser copy, PrintScreen, Photoshop) as well as copied image files from Windows Explorer (`.png`, `.jpg`, `.jpeg`, `.bmp`, `.gif`, `.tiff`).
 - **Zero External Dependencies**: Built using native C# (.NET Framework / WinRT / WinForms), resulting in a tiny, standalone executable that runs instantly on Windows 10 and 11 without requiring external runtime installers or heavy libraries.
@@ -49,13 +49,13 @@ bin\ClipboardPaster.exe --uninstall
 1. Copy an image containing text (such as a receipt, invoice, code snippet, or scanned document) to your clipboard.
 2. Right-click the folder icon OR the empty background inside any open folder.
 3. Select **Paste image & transcribe text (OCR)**.
-4. The application saves `Image_YYYY-MM-DD_HHMMSS.png` AND extracts the text using native Windows 10/11 OCR, saving it directly into `Image_YYYY-MM-DD_HHMMSS.txt` next to the image.
+4. The application extracts the text using native Windows 10/11 OCR, saving **only the transcribed text** (`Text_YYYY-MM-DD_HHMMSS.txt`) directly inside the folder while preserving all recognized line breaks (`\r\n`). No image (`.png`) file is written to disk in this mode.
 
 ### 3. Custom Filename / Format Selection
 1. Copy an image to your clipboard.
 2. Right-click the folder icon or inside the folder where you want to save it.
 3. Hold the **SHIFT** key on your keyboard and click either **Paste clipboard image** or **Paste image & transcribe text (OCR)**.
-4. A Save As dialog will appear, allowing you to choose a custom file name or change the format between PNG, JPG, or BMP before saving. If OCR was selected, the `.txt` file will automatically match your custom filename.
+4. A Save As dialog will appear, allowing you to choose a custom file name or format. If OCR was selected, you will be prompted to choose a destination and filename for the transcribed `.txt` file.
 
 ---
 

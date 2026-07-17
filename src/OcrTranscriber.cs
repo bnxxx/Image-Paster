@@ -55,7 +55,24 @@ namespace ClipboardPaster
                 }
 
                 OcrResult result = WaitForResult(ocrEngine.RecognizeAsync(softwareBitmap));
-                string transcribedText = result != null ? result.Text : string.Empty;
+                string transcribedText = string.Empty;
+                if (result != null && result.Lines != null && result.Lines.Count > 0)
+                {
+                    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                    for (int i = 0; i < result.Lines.Count; i++)
+                    {
+                        if (i > 0)
+                        {
+                            sb.AppendLine();
+                        }
+                        sb.Append(result.Lines[i].Text);
+                    }
+                    transcribedText = sb.ToString();
+                }
+                else if (result != null)
+                {
+                    transcribedText = result.Text;
+                }
 
                 if (string.IsNullOrWhiteSpace(transcribedText))
                 {
@@ -74,6 +91,7 @@ namespace ClipboardPaster
 
         /// <summary>
         /// Transcribes text from a System.Drawing.Bitmap directly and writes to textPath.
+        /// Preserves all line breaks recognized by Windows OCR.
         /// </summary>
         public static bool TranscribeBitmapAndSave(Bitmap bmp, string textPath, out string errorMessage)
         {
@@ -106,7 +124,24 @@ namespace ClipboardPaster
                 }
 
                 OcrResult result = WaitForResult(ocrEngine.RecognizeAsync(softwareBitmap));
-                string transcribedText = result != null ? result.Text : string.Empty;
+                string transcribedText = string.Empty;
+                if (result != null && result.Lines != null && result.Lines.Count > 0)
+                {
+                    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                    for (int i = 0; i < result.Lines.Count; i++)
+                    {
+                        if (i > 0)
+                        {
+                            sb.AppendLine();
+                        }
+                        sb.Append(result.Lines[i].Text);
+                    }
+                    transcribedText = sb.ToString();
+                }
+                else if (result != null)
+                {
+                    transcribedText = result.Text;
+                }
 
                 if (string.IsNullOrWhiteSpace(transcribedText))
                 {
