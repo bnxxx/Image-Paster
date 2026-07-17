@@ -19,9 +19,9 @@ namespace ClipboardPaster
         private void InitializeComponent()
         {
             this.Text = "Clipboard Image Paster - Setup & Configuration";
-            this.Size = new Size(520, 390);
-            this.MinimumSize = new Size(520, 390);
-            this.MaximumSize = new Size(520, 390);
+            this.Size = new Size(530, 420);
+            this.MinimumSize = new Size(530, 420);
+            this.MaximumSize = new Size(530, 420);
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -48,7 +48,7 @@ namespace ClipboardPaster
 
             Label lblSubtitle = new Label
             {
-                Text = "Paste clipboard images via right-click on folder icons or open folder backgrounds.",
+                Text = "Paste clipboard images (and optionally OCR transcribe text) via context menu.",
                 Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
                 ForeColor = Color.FromArgb(160, 166, 180),
                 Location = new Point(22, 48),
@@ -124,7 +124,7 @@ namespace ClipboardPaster
             Panel tipsCard = new Panel
             {
                 Location = new Point(25, 245),
-                Size = new Size(455, 95),
+                Size = new Size(465, 115),
                 BackColor = Color.FromArgb(33, 36, 43)
             };
 
@@ -139,13 +139,14 @@ namespace ClipboardPaster
 
             Label lblTipsBody = new Label
             {
-                Text = "• Right-click any folder icon OR inside any open folder -> \"Paste clipboard image\".\n" +
-                       "• By default, images save instantly and silently as PNG with a timestamp.\n" +
-                       "• Hold down SHIFT while clicking the option to open a custom Save As dialog.",
+                Text = "• Right-click any folder icon OR open folder -> \"Paste clipboard image\".\n" +
+                       "• For text extraction, select \"Paste image & transcribe text (OCR)\" to save\n" +
+                       "  both the image file AND a transcribed .txt file right next to it.\n" +
+                       "• Hold down SHIFT while clicking either option for a custom Save As dialog.",
                 Font = new Font("Segoe UI", 8.5F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
                 ForeColor = Color.FromArgb(150, 158, 172),
                 Location = new Point(12, 32),
-                Size = new Size(430, 55)
+                Size = new Size(440, 75)
             };
 
             tipsCard.Controls.Add(lblTipsHeader);

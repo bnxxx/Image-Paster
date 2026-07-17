@@ -90,8 +90,9 @@ namespace ClipboardPaster
         /// <summary>
         /// Main entry logic when invoked with a target directory path.
         /// Operates silently in the background unless SHIFT is held down for custom save dialog.
+        /// If runOcr is true, runs native Windows OCR on the saved image and outputs a matching .txt file.
         /// </summary>
-        public static void ProcessPasteRequest(string targetDir)
+        public static void ProcessPasteRequest(string targetDir, bool runOcr = false)
         {
             try
             {
@@ -122,7 +123,7 @@ namespace ClipboardPaster
 
                             dialog.InitialDirectory = targetDir;
                             dialog.FileName = defaultName;
-                            dialog.Title = "Save Clipboard Image";
+                            dialog.Title = runOcr ? "Save Clipboard Image & OCR Text" : "Save Clipboard Image";
                             dialog.Filter = "PNG Image (*.png)|*.png|JPEG Image (*.jpg;*.jpeg)|*.jpg;*.jpeg|Bitmap Image (*.bmp)|*.bmp";
                             dialog.FilterIndex = 1;
                             dialog.RestoreDirectory = true;
@@ -143,6 +144,13 @@ namespace ClipboardPaster
                                 }
 
                                 clipImage.Save(savePath, format);
+
+                                if (runOcr)
+                                {
+                                    string textPath = Path.ChangeExtension(savePath, ".txt");
+                                    string ocrError;
+                                    OcrTranscriber.TranscribeAndSave(savePath, textPath, out ocrError);
+                                }
                             }
                         }
                     }
@@ -152,6 +160,13 @@ namespace ClipboardPaster
                         string defaultName;
                         string savePath = GenerateUniqueSavePath(targetDir, out defaultName);
                         clipImage.Save(savePath, ImageFormat.Png);
+
+                        if (runOcr)
+                        {
+                            string textPath = Path.ChangeExtension(savePath, ".txt");
+                            string ocrError;
+                            OcrTranscriber.TranscribeAndSave(savePath, textPath, out ocrError);
+                        }
                     }
                 }
             }

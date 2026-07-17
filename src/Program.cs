@@ -22,7 +22,28 @@ namespace ClipboardPaster
                 return;
             }
 
-            string firstArg = args[0].Trim().Trim('"');
+            bool runOcr = false;
+            string firstArg = null;
+
+            foreach (string arg in args)
+            {
+                string cleanArg = arg.Trim().Trim('"');
+                if (string.Equals(cleanArg, "--ocr", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(cleanArg, "-ocr", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(cleanArg, "/ocr", StringComparison.OrdinalIgnoreCase))
+                {
+                    runOcr = true;
+                }
+                else if (firstArg == null)
+                {
+                    firstArg = cleanArg;
+                }
+            }
+
+            if (firstArg == null)
+            {
+                firstArg = Environment.CurrentDirectory;
+            }
 
             if (string.Equals(firstArg, "--install", StringComparison.OrdinalIgnoreCase) ||
                 string.Equals(firstArg, "/install", StringComparison.OrdinalIgnoreCase) ||
@@ -31,7 +52,7 @@ namespace ClipboardPaster
                 string error;
                 if (RegistryManager.Install(out error))
                 {
-                    Console.WriteLine("Successfully installed context menu entry.");
+                    Console.WriteLine("Successfully installed context menu entries.");
                 }
                 else
                 {
@@ -48,7 +69,7 @@ namespace ClipboardPaster
                 string error;
                 if (RegistryManager.Uninstall(out error))
                 {
-                    Console.WriteLine("Successfully uninstalled context menu entry.");
+                    Console.WriteLine("Successfully uninstalled context menu entries.");
                 }
                 else
                 {
@@ -74,7 +95,7 @@ namespace ClipboardPaster
             // Otherwise, check if firstArg is a directory path (from right-click context menu %V or background)
             if (Directory.Exists(firstArg))
             {
-                ClipboardHandler.ProcessPasteRequest(firstArg);
+                ClipboardHandler.ProcessPasteRequest(firstArg, runOcr);
             }
             else
             {

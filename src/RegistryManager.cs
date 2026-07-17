@@ -9,7 +9,10 @@ namespace ClipboardPaster
     {
         private const string KeyPath = @"Software\Classes\Directory\shell\ClipboardPaster";
         private const string KeyPathBackground = @"Software\Classes\Directory\Background\shell\ClipboardPaster";
+        private const string KeyPathOCR = @"Software\Classes\Directory\shell\ClipboardPasterOCR";
+        private const string KeyPathBackgroundOCR = @"Software\Classes\Directory\Background\shell\ClipboardPasterOCR";
         private const string MenuText = "Paste clipboard image";
+        private const string MenuTextOCR = "Paste image & transcribe text (OCR)";
 
         /// <summary>
         /// Checks if the context menu option is currently installed for the current user.
@@ -20,8 +23,10 @@ namespace ClipboardPaster
             {
                 using (RegistryKey key1 = Registry.CurrentUser.OpenSubKey(KeyPath))
                 using (RegistryKey key2 = Registry.CurrentUser.OpenSubKey(KeyPathBackground))
+                using (RegistryKey key3 = Registry.CurrentUser.OpenSubKey(KeyPathOCR))
+                using (RegistryKey key4 = Registry.CurrentUser.OpenSubKey(KeyPathBackgroundOCR))
                 {
-                    return key1 != null || key2 != null;
+                    return key1 != null || key2 != null || key3 != null || key4 != null;
                 }
             }
             catch
@@ -30,7 +35,7 @@ namespace ClipboardPaster
             }
         }
 
-        private static bool InstallKey(string keyPath, string exePath, out string errorMessage)
+        private static bool InstallKey(string keyPath, string menuText, string commandArgs, string exePath, out string errorMessage)
         {
             errorMessage = null;
             try
@@ -43,7 +48,7 @@ namespace ClipboardPaster
                         return false;
                     }
 
-                    key.SetValue("", MenuText);
+                    key.SetValue("", menuText);
                     key.SetValue("Icon", string.Format("\"{0}\",0", exePath));
 
                     using (RegistryKey cmdKey = key.CreateSubKey("command"))
@@ -54,7 +59,7 @@ namespace ClipboardPaster
                             return false;
                         }
 
-                        cmdKey.SetValue("", string.Format("\"{0}\" \"%V\"", exePath));
+                        cmdKey.SetValue("", string.Format("\"{0}\" {1}", exePath, commandArgs));
                     }
                 }
                 return true;
@@ -67,7 +72,7 @@ namespace ClipboardPaster
         }
 
         /// <summary>
-        /// Installs the right-click context menu entry under both Directory\shell and Directory\Background\shell for the current user.
+        /// Installs the right-click context menu entries under both Directory\shell and Directory\Background\shell for the current user.
         /// Does not require Administrator privileges.
         /// </summary>
         public static bool Install(out string errorMessage)
@@ -79,12 +84,22 @@ namespace ClipboardPaster
                 exePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ClipboardPaster.exe");
             }
 
-            if (!InstallKey(KeyPath, exePath, out errorMessage))
+            if (!InstallKey(KeyPath, MenuText, "\"%V\"", exePath, out errorMessage))
             {
                 return false;
             }
 
-            if (!InstallKey(KeyPathBackground, exePath, out errorMessage))
+            if (!InstallKey(KeyPathBackground, MenuText, "\"%V\"", exePath, out errorMessage))
+            {
+                return false;
+            }
+
+            if (!InstallKey(KeyPathOCR, MenuTextOCR, "\"%V\" --ocr", exePath, out errorMessage))
+            {
+                return false;
+            }
+
+            if (!InstallKey(KeyPathBackgroundOCR, MenuTextOCR, "\"%V\" --ocr", exePath, out errorMessage))
             {
                 return false;
             }
@@ -102,6 +117,8 @@ namespace ClipboardPaster
             {
                 Registry.CurrentUser.DeleteSubKeyTree(KeyPath, false);
                 Registry.CurrentUser.DeleteSubKeyTree(KeyPathBackground, false);
+                Registry.CurrentUser.DeleteSubKeyTree(KeyPathOCR, false);
+                Registry.CurrentUser.DeleteSubKeyTree(KeyPathBackgroundOCR, false);
                 return true;
             }
             catch (Exception ex)

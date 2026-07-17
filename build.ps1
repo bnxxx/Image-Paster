@@ -15,7 +15,22 @@ if (-not (Test-Path "bin")) {
     New-Item -ItemType Directory -Path "bin" | Out-Null
 }
 
-& $cscPath /nologo /target:winexe /optimize+ /out:bin\ClipboardPaster.exe /reference:System.Windows.Forms.dll /reference:System.Drawing.dll src\*.cs
+$winMeta = "C:\Windows\System32\WinMetadata"
+$sysRuntime = "C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Runtime\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Runtime.dll"
+$ocrRefs = @()
+
+if ((Test-Path "$winMeta\Windows.Media.winmd") -and (Test-Path $sysRuntime)) {
+    $ocrRefs = @(
+        "/reference:$sysRuntime",
+        "/reference:$winMeta\Windows.Media.winmd",
+        "/reference:$winMeta\Windows.Graphics.winmd",
+        "/reference:$winMeta\Windows.Foundation.winmd",
+        "/reference:$winMeta\Windows.Storage.winmd",
+        "/reference:$winMeta\Windows.Globalization.winmd"
+    )
+}
+
+& $cscPath /nologo /target:winexe /optimize+ /out:bin\ClipboardPaster.exe /reference:System.Windows.Forms.dll /reference:System.Drawing.dll $ocrRefs src\*.cs
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host "[ERROR] Compilation failed with exit code $LASTEXITCODE" -ForegroundColor Red
