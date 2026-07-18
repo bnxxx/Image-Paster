@@ -31,7 +31,7 @@ irm https://raw.githubusercontent.com/bnxxx/Image-Paster/main/uninstall.ps1 | ie
 ```
 
 
-### Winget (Windows Package Manager)
+### Winget (Windows Package Manager) **NOT WORKING RN**
 If installed via the official Winget Community Repository (`microsoft/winget-pkgs`), open PowerShell or Command Prompt and run:
 ```powershell
 winget install bnxxx.ImagePaster
