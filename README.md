@@ -19,11 +19,10 @@ A lightweight, native C# (.NET/Windows) utility that adds **"Paste clipboard ima
 ## Quick Start & Installation
 
 ### One-Line PowerShell Install
-The fastest way to install the application instantly right now. Open PowerShell and run this single line:
+The fastest way to install the application instantly right now. Open PowerShell and run:
 ```powershell
 irm https://raw.githubusercontent.com/bnxxx/Image-Paster/main/install.ps1 | iex
 ```
-This automatically downloads the latest release, places it in `%LOCALAPPDATA%\Programs\ImagePaster`, and silently registers the context menu options without interrupting you.
 
 To uninstall anytime using a single command, run:
 ```powershell

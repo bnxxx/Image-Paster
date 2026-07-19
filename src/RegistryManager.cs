@@ -49,7 +49,7 @@ namespace ClipboardPaster
                     }
 
                     key.SetValue("", menuText);
-                    key.SetValue("Icon", string.Format("\"{0}\",0", exePath));
+                    key.DeleteValue("Icon", false);
 
                     using (RegistryKey cmdKey = key.CreateSubKey("command"))
                     {
