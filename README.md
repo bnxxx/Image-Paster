@@ -18,19 +18,8 @@ A lightweight, native C# (.NET/Windows) utility that adds **"Paste clipboard ima
 
 ## Quick Start & Installation
 
-### One-Line PowerShell Install
-The fastest way to install the application instantly right now. Open PowerShell and run:
-```powershell
-irm https://raw.githubusercontent.com/bnxxx/Image-Paster/main/install.ps1 | iex
-```
 
-To uninstall anytime using a single command, run:
-```powershell
-irm https://raw.githubusercontent.com/bnxxx/Image-Paster/main/uninstall.ps1 | iex
-```
-
-
-### Winget (Windows Package Manager) **NOT WORKING RN**
+### Winget (Windows Package Manager) 
 If installed via the official Winget Community Repository (`microsoft/winget-pkgs`), open PowerShell or Command Prompt and run:
 ```powershell
 winget install bnxxx.ImagePaster
